@@ -1,26 +1,39 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { Api } from "./Services/Api";
 
 import "./App.css";
 
 function App() {
+  const [user, setUser] = useState([]);
+  const [handleError, setHandleError] = useState(false);
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts"
-        );
-        console.log(res.data);
+        const res = await Api.get("?_limit=5");
+
+        // console.log(res.data);
+        setUser(res.data);
       } catch (err) {
         console.log(err);
+        setHandleError("Failed to receive data");
       }
     };
-    fetchUser(), [];
-  });
+    fetchUser();
+  }, []);
 
+  if (handleError) {
+    return <p>{handleError}</p>;
+  }
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <div className="flex gap-5 my-5">
+        {user.map((users) => (
+          <ul className="flex flex-col" key={users.id}>
+            <li>Title: {users.title}</li>
+            <li>body: {users.body}</li>
+          </ul>
+        ))}
+      </div>
     </>
   );
 }
