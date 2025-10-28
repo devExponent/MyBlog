@@ -6,20 +6,26 @@ import "./App.css";
 function App() {
   const [user, setUser] = useState([]);
   const [handleError, setHandleError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        setIsLoading(true);
         const res = await Api.get("?_limit=5");
-
-        // console.log(res.data);
         setUser(res.data);
       } catch (err) {
         console.log(err);
         setHandleError("Failed to receive data");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchUser();
   }, []);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   if (handleError) {
     return <p>{handleError}</p>;
