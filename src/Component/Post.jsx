@@ -1,4 +1,3 @@
-import React from "react";
 import Card from "./Card";
 import { Api } from "../Services/Api";
 import { useState, useEffect } from "react";
