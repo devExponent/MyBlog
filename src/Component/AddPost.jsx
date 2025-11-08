@@ -5,7 +5,7 @@ import { useState } from "react";
 const Post = () => {
   const [inputData, setInputData] = useState({
     title: "",
-    post: "",
+    body: "",
   });
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -14,14 +14,13 @@ const Post = () => {
       [name]: value,
     }));
   };
-  const AddPost = async () => {
+  const AddPost = async (e) => {
+    e.preventDefault();
     try {
       const res = await Api.post("", {
-        title: "",
-        body: "",
-        // userId: '',
+        inputData,
       });
-      console.log(res);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -30,7 +29,7 @@ const Post = () => {
     <div>
       <p>ddddkm</p>
 
-      <form className="max-w-sm mx-auto">
+      <form className="max-w-sm mx-auto" onSubmit={AddPost}>
         <div className="mb-10">
           <label className="block mb-2 font-medium text-2xl">Title</label>
           <input
@@ -45,7 +44,7 @@ const Post = () => {
           <label className="block mb-2 font-medium text-2xl ">Post</label>
           <textarea
             className="w-96 h-40 p-2 border border-gray-300 rounded"
-            name="post"
+            name="body"
             required
             onChange={handleInput}
           ></textarea>
