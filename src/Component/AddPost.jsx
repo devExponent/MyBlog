@@ -3,6 +3,7 @@ import Card from "./Card";
 import { useState } from "react";
 
 const Post = () => {
+  const [display, setDisplay] = useState(false);
   const [inputData, setInputData] = useState({
     title: "",
     body: "",
@@ -20,6 +21,10 @@ const Post = () => {
       const res = await Api.post("", {
         inputData,
       });
+      console.log(res.status);
+      if (res.status === 200 || res.status === 201) {
+        setDisplay(true);
+      }
       console.log(res.data);
     } catch (err) {
       console.log(err);
@@ -58,7 +63,12 @@ const Post = () => {
           Add Post
         </button>
       </form>
-
+      {display && (
+        <>
+          <p>{inputData.title}</p>
+          <p>{inputData.body}</p>
+        </>
+      )}
       {/* <Card /> */}
     </div>
   );
