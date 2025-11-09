@@ -33,8 +33,7 @@ const Post = () => {
   return (
     <div>
       <p>ddddkm</p>
-
-      <form className="max-w-sm mx-auto" onSubmit={AddPost}>
+      <form className="max-w-sm mx-auto my-2" onSubmit={AddPost}>
         <div className="mb-10">
           <label className="block mb-2 font-medium text-2xl">Title</label>
           <input
@@ -65,8 +64,8 @@ const Post = () => {
       </form>
       {display && (
         <>
-          <p>{inputData.title}</p>
-          <p>{inputData.body}</p>
+          <Card title={inputData.title} body={inputData.body} />
+          <Card title={inputData.title} body={inputData.body} />
         </>
       )}
       {/* <Card /> */}
