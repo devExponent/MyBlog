@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const Post = () => {
   const [updatePost, setUpdatePost] = useState([]);
-  const [display, setDisplay] = useState(false);
+
   const [inputData, setInputData] = useState({
     title: "",
     body: "",
@@ -19,14 +19,13 @@ const Post = () => {
   const AddPost = async (e) => {
     e.preventDefault();
     try {
-      const res = await Api.post("", {
-        inputData,
-      });
-      setUpdatePost((prev) => [...prev, inputData]);
+      const res = await Api.post("", inputData);
+
       console.log(res.status);
-      if (res.status === 200 || res.status === 201) {
-        setDisplay(true);
-      }
+
+      setUpdatePost((prev) => [...prev, inputData]);
+      setInputData({ title: "", body: "" });
+
       console.log(res.data);
     } catch (err) {
       console.log(err);
@@ -42,8 +41,9 @@ const Post = () => {
             type="text"
             className="w-full border border-gray-300 rounded h-15"
             name="title"
-            onChange={handleInput}
+            value={inputData.title}
             required
+            onChange={handleInput}
           />
         </div>
         <div className="mb-5">
@@ -51,6 +51,7 @@ const Post = () => {
           <textarea
             className="w-96 h-40 p-2 border border-gray-300 rounded"
             name="body"
+            value={inputData.body}
             required
             onChange={handleInput}
           ></textarea>
@@ -64,7 +65,7 @@ const Post = () => {
           Add Post
         </button>
       </form>
-      {display &&
+      {updatePost.length > 0 &&
         updatePost.map((postItem, index) => (
           <div key={index}>
             <Card title={postItem.title} body={postItem.body} />
